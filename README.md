@@ -24,7 +24,7 @@ Kế hoạch phân công đầy đủ: [`docs/Phan-cong-De-tai-9-Giai-thuat-Bank
 | TV4 | Nguyễn Minh Trí | Engine — mã nguồn lõi | `tv4-engine` | ✅ Xong |
 | TV5 | Trần Đức Tân | Giao diện — nhập liệu và dữ liệu | `tv5-gui-nhap-lieu` | 🟡 Chạy được, cần hoàn thiện |
 | TV6 | Nguyễn Thái | Giao diện — mô phỏng và trực quan | `tv6-gui-mo-phong` | 🟡 Chạy được, cần hoàn thiện |
-| TV7 | Văn Hoàng | Chương 3 — so sánh hai giải thuật | `tv7-chuong-so-sanh` | ⬜ Chưa nộp — **đã có sẵn số liệu đo** |
+| TV7 | Văn Hoàng | Chương 3 — so sánh hai giải thuật | `tv7-chuong-so-sanh` |  ✅ Xong |
 | TV8 | Võ Nguyên Thảo | Chương 5 — kiểm thử và kết quả | `tv8-kiem-thu` | ⬜ Chưa nộp — 17 test đã chạy xanh |
 
 ---
