@@ -18,16 +18,102 @@ Kế hoạch phân công đầy đủ: [`docs/Phan-cong-De-tai-9-Giai-thuat-Bank
 
 | TV | Họ tên | Nhiệm vụ | Nhánh | Trạng thái |
 |---|---|---|---|---|
-| TV1 | Lê Minh Tài | Nhóm trưởng · hợp đồng dữ liệu · kiến trúc · xuất báo cáo | `tv1-kien-truc` | ✅ Xong |
-| TV2 | Nguyễn Đức Khải | Chương 1 — lý thuyết Deadlock | `tv2-chuong-ly-thuyet` | ⬜ Chưa nộp |
+| TV1 | Lê Minh Tài | Nhóm trưởng · hợp đồng dữ liệu · kiến trúc · Chương 4 | `tv1-kien-truc` | ✅ Xong |
+| TV2 | Nguyễn Đức Khải | Chương 1 — lý thuyết Deadlock | `tv2-chuong-ly-thuyet` | ✅ Xong |
 | TV3 | Đặng Hoàng Phong | Chương 2 — đặc tả thuật toán | `tv3-dac-ta-thuat-toan` | ✅ Xong |
 | TV4 | Nguyễn Minh Trí | Engine — mã nguồn lõi | `tv4-engine` | ✅ Xong |
-| TV5 | Trần Đức Tân | Giao diện — nhập liệu và dữ liệu | `tv5-gui-nhap-lieu` | 🟡 Chạy được, cần hoàn thiện |
-| TV6 | Nguyễn Thái | Giao diện — mô phỏng và trực quan | `tv6-gui-mo-phong` | 🟡 Chạy được, cần hoàn thiện |
-| TV7 | Văn Hoàng | Chương 3 — so sánh hai giải thuật | `tv7-chuong-so-sanh` | ⬜ Chưa nộp — **đã có sẵn số liệu đo** |
-| TV8 | Võ Nguyên Thảo | Chương 5 — kiểm thử và kết quả | `tv8-kiem-thu` | ⬜ Chưa nộp — 17 test đã chạy xanh |
+| TV5 | Trần Đức Tân | Giao diện — nhập liệu và dữ liệu | `tv5-gui-nhap-lieu` | ✅ Xong |
+| TV6 | Nguyễn Thái | Giao diện — mô phỏng và trực quan | `tv6-gui-mo-phong` | ✅ Xong |
+| TV7 | Văn Hoàng | Chương 3 — so sánh hai giải thuật | `tv7-chuong-so-sanh` | ✅ Xong |
+| TV8 | Võ Nguyên Thảo | Chương 5 — kiểm thử và kết quả | `tv8-kiem-thu` | ✅ Xong |
+
+**Đủ 5 chương và phần mềm đã có trên `main`.** Bộ kiểm thử: **22/22 ca đạt.**
 
 ---
+
+## Hướng dẫn demo
+
+Phần này dành cho buổi bảo vệ. Làm đúng thứ tự, mỗi bước nói một câu.
+
+### Chuẩn bị — làm trước ở nhà, đừng làm trước mặt thầy
+
+```bash
+git clone https://github.com/BryannLee202/HDH_De_tai_9_Giai_thuat_Banker.git
+```
+
+```bash
+pip install PyQt5 matplotlib openpyxl python-docx
+```
+
+Chạy thử một lượt cho chắc, và để lần tải thư viện đầu tiên diễn ra trước buổi demo.
+
+### Bước 1 — Chứng minh thuật toán đúng
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Kết quả: **22/22 ca đạt**.
+
+Nói: *"Bộ kiểm thử có 22 ca, giá trị kỳ vọng lấy từ bảng chạy tay ở Chương 2 chứ không suy đoán. Người viết ca kiểm thử là TV8, người viết mã cài đặt là TV4 — hai người khác nhau."*
+
+### Bước 2 — Chạy engine không cần giao diện
+
+```bash
+python -m engine.demo
+```
+
+Kết quả: **AN TOÀN**, chuỗi `P1 → P3 → P0 → P2 → P4`, `Work` cuối `(10, 5, 7)`.
+
+Nói: *"Engine không import thư viện đồ hoạ nào nên chạy được từ dòng lệnh — đó là lý do kiểm thử tự động được."*
+
+### Bước 3 — Mở phần mềm (phần chính)
+
+```bash
+python -m gui.GUI_TV6
+```
+
+Thao tác theo đúng thứ tự này:
+
+| Thao tác | Kết quả cần chỉ ra |
+|---|---|
+| Bấm **Kiểm tra & Tính Need** | Bảng Need tự sinh, khoá không cho sửa tay |
+| Bấm **Chạy Từng Bước** 5 lần | Nhật ký đủ 5 vòng, badge xanh báo AN TOÀN kèm chuỗi |
+| Chọn `P1`, nhập `1 0 2`, **Gửi yêu cầu** | Nền xanh — **CẤP PHÁT** |
+| Chọn `P4`, nhập `3 3 0`, **Gửi yêu cầu** | Nền cam — **CHỜ**, thiếu tài nguyên rảnh |
+| Chọn `P2`, nhập `7 0 0`, **Gửi yêu cầu** | Nền đỏ — **LỖI**, vượt quá Need |
+| **Kết thúc tiến trình** rồi **Hoàn tác** | Available đổi rồi quay lại như cũ |
+
+**Câu đắt giá nhất khi demo:** sau khi đã cấp cho `P1`, thử cho `P0` xin `(0 2 0)`. Hệ thống **còn đủ tài nguyên rảnh** nhưng vẫn từ chối, vì cấp vào thì trạng thái mất an toàn. Đây chính là điểm phân biệt *tránh deadlock* với *cấp phát theo tài nguyên còn rảnh*.
+
+### Bước 4 — Số liệu so sánh cho Chương 3
+
+```bash
+python -m scripts.so_sanh_hai_giai_thuat
+```
+
+Script đo cả hai giải thuật, sinh CSV và 4 hình. Nói: *"Số liệu trong Chương 3 do chính script này đo, hạt giống ngẫu nhiên cố định nên chạy lại ra đúng bảng trong báo cáo."*
+
+Điều đáng chỉ ra ở cuối màn hình: trên bộ dữ liệu chuẩn, **giải thuật đồ thị báo có chu trình nhưng Banker báo an toàn** — chứng minh chu trình chỉ là *điều kiện cần* khi tài nguyên có nhiều thực thể.
+
+### Nếu máy trục trặc
+
+Có sẵn ảnh chụp trong `docs/anh-demo/`. Mở `docs/anh-demo/giao-dien-tong-quan.png` rồi trình bày tiếp bằng ảnh.
+
+### Bốn câu hỏi hay bị hỏi nhất
+
+**Vì sao trạng thái không an toàn chưa chắc là deadlock?**
+Không an toàn nghĩa là hệ điều hành không còn *bảo đảm được* mọi tiến trình hoàn tất trong tình huống xấu nhất. Thực tế các tiến trình có thể không xin hết `Max` và vẫn chạy trót lọt. Banker chọn cách thận trọng: từ chối luôn.
+
+**Vì sao hệ điều hành thật không dùng Banker?**
+Phải biết trước nhu cầu tối đa của mọi tiến trình — điều gần như không có trong thực tế. Ngoài ra cấp phát quá thận trọng làm giảm hiệu suất. Windows và Linux dùng thuật toán đà điểu: bỏ qua.
+
+**Chuỗi an toàn có duy nhất không?**
+Không. Với ví dụ chuẩn có **16 chuỗi hợp lệ**, chương trình liệt kê hết được bằng `tat_ca_chuoi_an_toan()`. Chương trình chọn chuỗi đầu tiên tìm được khi duyệt theo thứ tự chỉ số tăng dần.
+
+**Vì sao độ phức tạp là `O(m·n²)` chứ không phải `O(n²)`?**
+Vòng ngoài lặp tối đa `n` lần, mỗi lần quét `n` tiến trình, và mỗi phép so sánh vector tốn `m` phép tính. Lưu ý đây là **cận trên chặt**, không phải hành vi trung bình — số đo thực tế trên dữ liệu ngẫu nhiên tăng gần tuyến tính, chỉ trường hợp xấu nhất mới đúng bậc hai.
+
 
 ## Chạy chương trình
 
@@ -110,20 +196,24 @@ Giao diện không gọi thẳng engine mà đi qua [`gui/engine_adapter.py`](gu
 ## Cấu trúc thư mục
 
 ```
-engine/    Thuật toán Banker, không phụ thuộc giao diện        TV4
-  banker_types.py   Hợp đồng dữ liệu dùng chung                TV1
-  banker.py         Hai thủ tục chính của giải thuật           TV4
-  demo.py           Chạy thử từ dòng lệnh                      TV4
-gui/       Giao diện phần mềm                                  TV5, TV6
-  GUI_TV6.py        Cửa sổ chính, nhập liệu, mô phỏng          TV5, TV6
-  bang_yeu_cau.py   Yêu cầu, giải phóng, hoàn tác, biểu đồ     TV6
-  engine_adapter.py Cầu nối giữa engine và giao diện           TV6
-  xuat_bao_cao.py   Xuất kết quả ra HTML / Excel               TV1
-scripts/   Đo hiệu năng, xuất CSV cho Chương 3                 TV4
-tests/     Kiểm thử tự động — 17 ca                            TV8
+engine/    Thuật toán, không phụ thuộc giao diện
+  banker_types.py      Hợp đồng dữ liệu dùng chung             TV1
+  banker.py            Giải thuật Banker                       TV4
+  do_thi_phan_bo.py    Giải thuật đồ thị (đối chứng Chương 3)  TV7
+  demo.py              Chạy thử từ dòng lệnh                   TV4
+gui/       Giao diện phần mềm
+  GUI_TV6.py           Cửa sổ chính, nhập liệu, mô phỏng       TV5, TV6
+  bang_yeu_cau.py      Yêu cầu, giải phóng, hoàn tác, biểu đồ  TV6
+  engine_adapter.py    Cầu nối giữa engine và giao diện        TV6
+  xuat_bao_cao.py      Xuất kết quả ra HTML / Excel            TV1
+scripts/   Công cụ sinh số liệu và tài liệu
+  do_hieu_nang.py           Đo Banker, trung bình và xấu nhất  TV4
+  so_sanh_hai_giai_thuat.py Đo 2 giải thuật, vẽ 4 hình Ch.3    TV7
+  tao_chuong_4_5.py         Sinh Chương 4 và Chương 5          TV1
+tests/     22 ca kiểm thử tự động                              TV8
 data/      3 bộ dữ liệu mẫu .json                              TV5
-docs/      Đề bài, kế hoạch, kiến trúc chương trình            TV1
-report/    Quyển báo cáo — mỗi chương một thư mục riêng
+docs/      Đề bài, kế hoạch, kiến trúc, ảnh demo               TV1
+report/    Quyển báo cáo — 5 chương, mỗi chương một thư mục
 ```
 
 **Quy tắc quan trọng nhất:** mỗi thư mục có đúng một chủ sở hữu, và **chỉ chủ sở hữu được sửa file bên trong**.
@@ -217,17 +307,15 @@ TV8: them 5 ca kiem thu bien
 
 ---
 
-## Việc tiếp theo của từng người
+## Việc còn lại
 
-**TV2** — Chương 1: 4 điều kiện Coffman, 4 hướng xử lý, phân biệt deadlock / starvation / livelock, bài toán 5 triết gia. Tối thiểu 5 hình tự vẽ, nộp kèm file nguồn `.drawio`.
+Cả 8 phần việc chuyên môn đã xong. Ba việc cuối trước khi nộp:
 
-**TV5, TV6** — Cài PyQt5 rồi chạy `python -m gui.GUI_TV6` để kiểm tra bằng mắt. Phần còn thiếu: tô sáng hàng tiến trình đang xét trên bảng `Need`, hộp thoại xác nhận khi xoá trắng, và quay video demo 3–5 phút.
+**Ghép quyển — TV1.** Gộp 5 chương thành một file, thêm bìa, lời nói đầu, mục lục tự động, danh mục hình và bảng, bảng phân công, kết luận, tài liệu tham khảo, phụ lục mã nguồn. Chương 4 và Chương 5 sinh sẵn theo đúng định dạng Times New Roman 13, giãn dòng 1.5, lề 3-2-2-2.
 
-**TV7** — Chương 3. Số liệu đo đã có sẵn trong `scripts/ket_qua_hieu_nang.csv`, chạy lại bằng `python -m scripts.do_hieu_nang`. Kết quả cho thấy **dữ liệu ngẫu nhiên tăng gần tuyến tính, còn trường hợp xấu nhất mới đúng bậc hai** — nêu được điều này là điểm cộng, vì `O(m·n²)` là cận trên chặt chứ không phải mô tả trung bình. Hình đồ thị phân bổ tài nguyên lấy từ phần mềm (`gui/bang_yeu_cau.py`).
+**Video demo — TV6.** Quay 3–5 phút theo đúng thứ tự ở mục Hướng dẫn demo. Để trên Google Drive rồi dán link vào cuối README, đừng commit vào repo.
 
-**TV8** — Chương 5. 17 ca kiểm thử trong `tests/test_banker.py` đã xanh; bổ sung tối thiểu 5 ca của riêng mình, chạy phần mềm thật và chụp màn hình từng ca. Soạn 15 câu hỏi phản biện cho cả nhóm.
-
----
+**Buổi hỏi chéo — TV8.** Bốc thăm câu hỏi cho cả nhóm, mục tiêu là ai cũng trả lời được câu ngoài phần mình phụ trách.
 
 ## Tài liệu học theo vai trò
 
